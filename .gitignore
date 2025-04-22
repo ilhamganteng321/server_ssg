@@ -1,0 +1,10 @@
+.env
+uploads/*
+ssg-api-gdrive-*.json
+node_modules/
+server.rar
+ham.txt
+database.db
+api-key.json
+ssg-api-gdrive-cd50f991cc9a.json
+dummy.js

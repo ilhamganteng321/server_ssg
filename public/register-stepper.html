@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Stepper Registrasi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen p-6">
+  <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-indigo-700 mb-2">Registrasi Pengguna</h1>
+      <p class="text-gray-600">Lengkapi data diri Anda untuk melanjutkan</p>
+    </div>
+    
+    <form id="registerForm" class="space-y-8">
+      <!-- Stepper Navigation -->
+      <div class="flex justify-between mb-8 relative">
+        <div class="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 -z-10"></div>
+        <div class="absolute top-1/2 left-0 h-1 bg-indigo-600 transition-all duration-300 -z-10" id="progress-bar"></div>
+        
+        <div class="step-indicator flex flex-col items-center">
+          <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center mb-2 font-bold">1</div>
+          <span class="text-sm font-medium text-indigo-600">Data Diri</span>
+        </div>
+        <div class="step-indicator flex flex-col items-center">
+          <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center mb-2 font-bold">2</div>
+          <span class="text-sm font-medium text-gray-500">Alamat KTP</span>
+        </div>
+        <div class="step-indicator flex flex-col items-center">
+          <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center mb-2 font-bold">3</div>
+          <span class="text-sm font-medium text-gray-500">Domisili & Login</span>
+        </div>
+      </div>
+
+      <!-- Step 1: Data Diri -->
+      <div class="step" id="step-1">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-gray-700 mb-2">Nama Lengkap</label>
+            <input type="text" name="nama_lengkap" placeholder="Masukkan nama lengkap" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">NIK</label>
+            <input type="text" name="nik" placeholder="Masukkan NIK" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Jenis Kelamin</label>
+            <select name="jenis_kelamin" class="input-field" required>
+              <option value="">Pilih Jenis Kelamin</option>
+              <option value="L">Laki-laki</option>
+              <option value="P">Perempuan</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Tempat Lahir</label>
+            <input type="text" name="tempat_lahir" placeholder="Masukkan tempat lahir" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Tanggal Lahir</label>
+            <input type="date" name="tanggal_lahir" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Golongan Darah</label>
+            <input type="text" name="golongan_darah" placeholder="A, B, AB, O, -" class="input-field">
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Alamat KTP -->
+      <div class="step hidden" id="step-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="md:col-span-2">
+            <label class="block text-gray-700 mb-2">Alamat Lengkap</label>
+            <textarea name="alamat" placeholder="Masukkan alamat lengkap" class="input-field" rows="3" required></textarea>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">RT</label>
+            <input type="text" name="rt" placeholder="Masukkan RT" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">RW</label>
+            <input type="text" name="rw" placeholder="Masukkan RW" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Kode Pos</label>
+            <input type="text" name="kode_pos" id="kode_pos" placeholder="Masukkan kode pos" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Kelurahan / Desa</label>
+            <input type="text" name="kelurahan_desa" id="kelurahan_desa" placeholder="Masukkan kelurahan/desa" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Kecamatan</label>
+            <input type="text" name="kecamatan" id="kecamatan" placeholder="Masukkan kecamatan" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Kabupaten / Kota</label>
+            <input type="text" name="kabupaten_kota" id="kabupaten_kota" placeholder="Masukkan kabupaten/kota" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Provinsi</label>
+            <input type="text" name="provinsi" id="provinsi" placeholder="Masukkan provinsi" class="input-field" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Domisili & Login -->
+      <div class="step hidden" id="step-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="md:col-span-2">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Alamat Domisili</h3>
+          </div>
+          <div class="md:col-span-2">
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="copyAlamatCheckbox" class="mr-2 rounded text-indigo-600 focus:ring-indigo-500">
+              <span class="text-gray-700">Sama dengan alamat KTP</span>
+            </label>
+          </div>          
+          <div class="md:col-span-2">
+            <label class="block text-gray-700 mb-2">Alamat Domisili</label>
+            <input type="text" name="domisili_alamat" id="domisili_alamat" placeholder="Masukkan alamat domisili" class="input-field">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">RT Domisili</label>
+            <input type="text" name="domisili_rt" id="domisili_rt" placeholder="Masukkan RT domisili" class="input-field">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">RW Domisili</label>
+            <input type="text" name="domisili_rw" id="domisili_rw" placeholder="Masukkan RW domisili" class="input-field">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Kode Pos Domisili</label>
+            <input type="text" name="domisili_kode_pos" id="domisili_kode_pos" placeholder="Masukkan kode pos domisili" class="input-field">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Kelurahan / Desa Domisili</label>
+            <input type="text" name="domisili_kelurahan_desa" id="domisili_kelurahan_desa" placeholder="Masukkan kelurahan/desa domisili" class="input-field">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Kecamatan Domisili</label>
+            <input type="text" name="domisili_kecamatan" id="domisili_kecamatan" placeholder="Masukkan kecamatan domisili" class="input-field">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Kabupaten / Kota Domisili</label>
+            <input type="text" name="domisili_kabupaten_kota" id="domisili_kabupaten_kota" placeholder="Masukkan kabupaten/kota domisili" class="input-field">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Provinsi Domisili</label>
+            <input type="text" name="domisili_provinsi" id="domisili_provinsi" placeholder="Masukkan provinsi domisili" class="input-field">
+          </div>
+          
+          <div class="md:col-span-2 mt-6">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Informasi Login</h3>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Email</label>
+            <div class="relative">
+              <input type="email" name="email" id="emailField" placeholder="Email" class="input-field bg-gray-100" readonly>
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+                <i class="fas fa-lock"></i>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Nomor HP</label>
+            <input type="tel" name="nomor_hp" placeholder="Masukkan nomor HP" class="input-field" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Password</label>
+            <div class="relative">
+              <input type="password" name="password" id="password" placeholder="Buat password" class="input-field pr-10" required>
+              <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700" onclick="togglePasswordVisibility('password')">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Minimal 8 karakter</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="flex justify-between pt-8 border-t border-gray-200">
+        <button type="button" id="prevBtn" class="hidden bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium transition-colors">
+          <i class="fas fa-arrow-left mr-2"></i> Sebelumnya
+        </button>
+        <div class="flex-1"></div>
+        <button type="button" id="nextBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+          Selanjutnya <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+        <button type="submit" id="submitBtn" class="hidden bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+          <i class="fas fa-user-plus mr-2"></i> Daftar Sekarang
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const steps = document.querySelectorAll('.step');
+    const indicators = document.querySelectorAll('.step-indicator');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const progressBar = document.getElementById('progress-bar');
+    let currentStep = 0;
+
+    // Ambil data dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get('email');
+    const name = urlParams.get('name');
+
+    if (email) {
+      document.getElementById('emailField').value = email;
+    }
+    if (name) {
+      document.querySelector('input[name="nama_lengkap"]').value = name;
+    }
+
+    // Kode Pos Auto Fill
+    const kodePosInput = document.getElementById('kode_pos');
+    let lastFetchedKodePos = '';
+
+    kodePosInput.addEventListener('change', async function() {
+      const kodePos = this.value.trim();
+
+      // Jika sudah 5 karakter dan berbeda dari request terakhir
+      if (kodePos.length === 5 && kodePos !== lastFetchedKodePos) {
+        lastFetchedKodePos = kodePos;
+
+        try {
+          const response = await fetch(`http://localhost:3333/api/users/kodepos?kode_pos=${kodePos}`);
+          if (!response.ok) {
+            throw new Error('Gagal mengambil data');
+          }
+          const data = await response.json();
+          
+          document.getElementById('kelurahan_desa').value = data.kelurahan || '';
+          document.getElementById('kecamatan').value = data.kecamatan || '';
+          document.getElementById('kabupaten_kota').value = data.kota || '';
+          document.getElementById('provinsi').value = data.provinsi || '';
+        } catch (error) {
+          console.error('Error mengambil data kodepos:', error);
+          // Tidak perlu alert karena mungkin user salah input kode pos
+        }
+      }
+    });
+
+    // Copy Alamat KTP ke Domisili
+    const checkbox = document.getElementById('copyAlamatCheckbox');
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        document.getElementById('domisili_alamat').value = document.querySelector('textarea[name="alamat"]').value;
+        document.getElementById('domisili_rt').value = document.querySelector('input[name="rt"]').value;
+        document.getElementById('domisili_rw').value = document.querySelector('input[name="rw"]').value;
+        document.getElementById('domisili_kode_pos').value = document.querySelector('input[name="kode_pos"]').value;
+        document.getElementById('domisili_kelurahan_desa').value = document.querySelector('input[name="kelurahan_desa"]').value;
+        document.getElementById('domisili_kecamatan').value = document.querySelector('input[name="kecamatan"]').value;
+        document.getElementById('domisili_kabupaten_kota').value = document.querySelector('input[name="kabupaten_kota"]').value;
+        document.getElementById('domisili_provinsi').value = document.querySelector('input[name="provinsi"]').value;
+      } else {
+        // Kosongkan field domisili jika uncheck
+        document.querySelectorAll('[name^="domisili_"]').forEach(input => input.value = '');
+      }
+    });
+
+    // Toggle Password Visibility
+    function togglePasswordVisibility(fieldId) {
+      const field = document.getElementById(fieldId);
+      const eyeIcon = field.nextElementSibling.querySelector('i');
+      
+      if (field.type === 'password') {
+        field.type = 'text';
+        eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        field.type = 'password';
+        eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    }
+
+    function showStep(index) {
+      // Update step visibility
+      steps.forEach((step, i) => {
+        step.classList.toggle('hidden', i !== index);
+      });
+      
+      // Update indicators
+      indicators.forEach((indicator, i) => {
+        const circle = indicator.querySelector('div');
+        const text = indicator.querySelector('span');
+        
+        if (i === index) {
+          circle.classList.remove('bg-gray-200', 'text-gray-600');
+          circle.classList.add('bg-indigo-600', 'text-white');
+          text.classList.remove('text-gray-500');
+          text.classList.add('text-indigo-600');
+        } else if (i < index) {
+          circle.classList.remove('bg-gray-200', 'text-gray-600');
+          circle.classList.add('bg-green-500', 'text-white');
+          text.classList.remove('text-gray-500');
+          text.classList.add('text-green-600');
+        } else {
+          circle.classList.remove('bg-indigo-600', 'text-white', 'bg-green-500');
+          circle.classList.add('bg-gray-200', 'text-gray-600');
+          text.classList.remove('text-indigo-600', 'text-green-600');
+          text.classList.add('text-gray-500');
+        }
+      });
+      
+      // Update progress bar
+      progressBar.style.width = `${(index / (steps.length - 1)) * 100}%`;
+      
+      // Update button visibility
+      prevBtn.classList.toggle('hidden', index === 0);
+      nextBtn.classList.toggle('hidden', index === steps.length - 1);
+      submitBtn.classList.toggle('hidden', index !== steps.length - 1);
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        showStep(currentStep);
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+      }
+    });
+
+    // Initialize
+    showStep(currentStep);
+
+    // Handle Submit
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
+
+      try {
+        const response = await fetch('http://localhost:3333/api/users/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        console.log("Server response:", result);
+
+        if (!response.ok) {
+          alert(result.message || 'Terjadi kesalahan');
+          return;
+        }
+
+        alert('Registrasi berhasil!');
+        // Redirect or other success action
+        window.location.href = '/login'; // Contoh redirect
+      } catch (err) {
+        console.error("Fetch error:", err);
+        alert('Gagal mengirim data ke server.');
+      }
+    });
+  </script>
+
+  <style>
+    .input-field {
+      @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all;
+    }
+    .input-field:read-only {
+      @apply bg-gray-100 cursor-not-allowed;
+    }
+    [type="checkbox"] {
+      @apply rounded text-indigo-600 focus:ring-indigo-500;
+    }
+  </style>
+</body>
+</html>
