@@ -9,6 +9,7 @@ import {
   getUserStatusFlag,
   updateEduUsers,
   updateUserHealth,
+  getUserFilesByUserId
 } from "../models/user.bio.models.js";
 import { getUserById } from "../models/user.model.js";
 
@@ -207,5 +208,21 @@ export const getUserReRegistration = async (req, res) => {
     if (!res.headersSent) {
       return res.status(500).json({ message: "internal server error" });
     }
+  }
+}
+
+export const getUserFiles = async (req, res) =>{
+  const { userId } = req.query;
+  try {
+    const files = await getUserFilesByUserId(userId);
+    const formattedFiles = files.map(file => ({
+      file_name: file.file_name,
+      file_type: file.file_type,
+      drive_link: `https://drive.google.com/file/d/${file.google_drive_file_id}/view`
+    }));
+    res.status(200).json({ files: formattedFiles });
+  } catch (error) {
+    console.error('Error fetching user files:', error);
+    res.status(500).json({ error: 'Failed to fetch user files' });
   }
 }

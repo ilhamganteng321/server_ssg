@@ -145,7 +145,7 @@ export const getUsers = async (req, res) => {
       kecamatan : user.kecamatan, 
       kabupaten_kota : user.kabupaten_kota,
       provinsi : user.provinsi,
-      nomor_hp : user.nomor_hp,
+      nomor_hp : decryptData(JSON.parse(user.nomor_hp)),
       agama : user.agama,
       golongan_darah : user.golongan_darah,
     }));

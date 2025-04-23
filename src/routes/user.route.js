@@ -2,11 +2,12 @@
 import express from 'express';
 import multer from 'multer';
 import { forgotPasswordUser, getKodePos, getUsers, googleLogin, googleLoginCb, loginUser, logoutUser, registerUser, verifyOTP } from '../controllers/user.controller.js';
-import { createEducation, createHealthRecord, getEduUser, getHealthUser, getUserReRegistration, reRegistrationUser, updateEducation, updateHealthRecord } from '../controllers/user.bio.controller.js';
+import { createEducation, createHealthRecord, getEduUser, getHealthUser, getUserFiles, getUserReRegistration, reRegistrationUser, updateEducation, updateHealthRecord } from '../controllers/user.bio.controller.js';
 import { authorize, createFolder, uploadFile } from '../lib/googleDrive.js';
 import { getUserById } from '../models/user.model.js';
 import {getConnection} from '../config/db.js';
 import { handlePresensi } from '../controllers/presensi.controller.js';
+import { getIbadahByDate, getIbadahByMonth, inputMyUsers } from '../controllers/user.my.controller.js';
 const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
@@ -29,6 +30,10 @@ router.get('/get-health', getHealthUser);
 router.post('/re-registration', reRegistrationUser);
 router.get('/get-status-flag', getUserReRegistration);
 router.post('/presensi', handlePresensi);
+router.get('/user-files', getUserFiles);
+router.post('/input-my', inputMyUsers);
+router.get('/get-ibadah-date', getIbadahByDate);
+router.get('/get-ibadah-month', getIbadahByMonth);
 router.post('/upload-files', upload.array('files'), async (req, res) => {
   const connection = await getConnection();
   try {
@@ -78,5 +83,6 @@ router.post('/upload-files', upload.array('files'), async (req, res) => {
     connection.release(); // penting untuk pool
   }
 });
+
 
 export default router;

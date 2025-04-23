@@ -429,4 +429,18 @@ export const getUserQrcode = async (user_id) => {
   }
 }
 
+export const getUserFilesByUserId= async(userId) => {
+  const connection = await getConnection();
+  try {
+    const [rows] = await connection.execute(
+      `SELECT file_name, file_type, google_drive_file_id
+       FROM user_files
+       WHERE user_id = ?`,
+      [userId]
+    );
+    return rows;
+  } finally {
+    connection.release();
+  }
+}
 
