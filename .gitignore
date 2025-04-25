@@ -6,3 +6,5 @@ ham.txt
 database.db
 ssg-api-gdrive-cd50f991cc9a.json
 dummy.js
+api-key.json
+.env
