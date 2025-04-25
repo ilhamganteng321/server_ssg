@@ -52,5 +52,6 @@ export const dbPromise = async () =>{
     throw error;
   }
 }
+getConnection();
 
 export default dbPromise;

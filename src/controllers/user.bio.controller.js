@@ -9,7 +9,8 @@ import {
   getUserStatusFlag,
   updateEduUsers,
   updateUserHealth,
-  getUserFilesByUserId
+  getUserFilesByUserId,
+  getUserQrcode
 } from "../models/user.bio.models.js";
 import { getUserById } from "../models/user.model.js";
 
@@ -168,22 +169,24 @@ export const reRegistrationUser = async (req, res) => {
   try {
     const { user_id } = req.query;
     const user = await getUserById(user_id);
+    console.log("usernya : ",user);
     if (!user) {
       return res.status(404).json({ message: "users tidak tersedia" });
     }
     const userStatusRegistration = await getUserStatusFlag(user_id);
+    console.log("status registrasi" , userStatusRegistration);
     if (!userStatusRegistration) {
-      return res.status(404).json({ message: "users tidak tersedia" });
+      await createUserReRegistration(user_id);
+      return res.status(200).json({ message: "Registrasi ulang dikirm tunnggu admin verifikasi", data: userStatusRegistration });
     }
     console.log("registarasi" , userStatusRegistration);
     if (userStatusRegistration.flag === '1') {
       return res.status(400).json({ message: "kamu sudah menjadi peserta" });
     }
     if(userStatusRegistration){
-      return res.status(400).json({ message: "users sudah daftar ulang, silakan tunggu verifikasi admin" });
+      return res.status(400).json({ message: "users sudah daftar ulang, silakan tunggu verifikasi admin", data: userStatusRegistration });
     }
-    await createUserReRegistration(user_id);
-    return res.status(200).json({ message: "Registrasi ulang dikirm tunnggu admin verifikasi" });
+  
     } catch (error) {
   }
 }
@@ -224,5 +227,23 @@ export const getUserFiles = async (req, res) =>{
   } catch (error) {
     console.error('Error fetching user files:', error);
     res.status(500).json({ error: 'Failed to fetch user files' });
+  }
+}
+
+export const getUserQrcodes = async (req, res) => {
+  try {
+    const { user_id } = req.query;
+    const user = await getUserById(user_id);
+    if (!user) {
+      return res.status(404).json({ message: "users tidak tersedia" });
+    }
+
+    const qrcode = await getUserQrcode(user_id);
+    if (!qrcode) {
+      return res.status(404).json({ message: "users tidak tersedia" });
+    }
+    return res.status(200).json({data : qrcode});
+  } catch (error) {
+    
   }
 }

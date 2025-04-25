@@ -327,7 +327,7 @@ try {
   if (!rows.length) {
     return null;
   }
-
+  console.log(rows);
   const row = rows[0];
   return row; // hanya kembalikan nilai flag
 } catch (error) {

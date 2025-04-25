@@ -1,4 +1,5 @@
 import { sendVerifiedUsers } from "../lib/fonnteService.js";
+import { getAllUsersStatusFlag } from "../models/admin.models.js";
 import { createUserQrcode, getUserQrcode, getUserStatusFlag, updateUserStatusFlag } from "../models/user.bio.models.js";
 import { getUserById, getUserRole, updateUserRole } from "../models/user.model.js";
 
@@ -40,6 +41,37 @@ export const activateUser = async (req, res) => {
         
         await sendVerifiedUsers(user.nomor_hp);
         return res.status(200).json({ message: "users sudah aktif" });
+    } catch (error) {
+        console.log(error);
+        if (!res.headersSent) {
+            return res.status(500).json({ message: "internal server error" });
+        }
+    }
+}
+
+export const getUserStatusFlagUsers = async (req, res) => {
+    try {
+        const userFlag = await getAllUsersStatusFlag();
+        
+        if(!userFlag){
+            res.status(400).json({message : "gagal mengambil data"})
+        }
+        return res.status(200).json({data : userFlag});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message : "internal error"})
+    }
+}
+
+export const getUserStatusFlagOne = async (req, res) => {
+    try {
+        const { user_id } = req.query;
+        const userStatusRegistration = await getUserStatusFlag(user_id);
+        if (!userStatusRegistration) {
+            return res.status(404).json({ message: "users tidak tersedia" });
+        }
+
+        return res.status(200).json({data : userStatusRegistration});
     } catch (error) {
         console.log(error);
         if (!res.headersSent) {

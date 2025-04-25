@@ -10,6 +10,7 @@ import crypto from 'crypto';
 import authorizeUrl, { oauth2Client } from '../lib/gmailLogin.js';
 import { google } from 'googleapis';
 import { getConnection } from '../config/db.js';
+import { getAllUsersStatusFlag } from '../models/admin.models.js';
 
 // Validasi Input Pengguna (Disesuaikan dengan Tabel Users)
 const userSchema = Joi.object({
@@ -131,6 +132,7 @@ export const getUsers = async (req, res) => {
   const users = await getAllUsers();
   // console.log("users", users)
   try {
+    const userFlags = await getAllUsersStatusFlag();
     const decryptedUsers = users.map(user =>({
       nama_lengkap : decryptData(JSON.parse(user.nama_lengkap)), // Simpan sebagai JSON
       nik : decryptData(JSON.parse(user.nik)),
@@ -148,9 +150,17 @@ export const getUsers = async (req, res) => {
       nomor_hp : decryptData(JSON.parse(user.nomor_hp)),
       agama : user.agama,
       golongan_darah : user.golongan_darah,
+      domisili_alamat: decryptData(JSON.parse(user.domisili_alamat)),
+      domisili_kode_pos: user.domisili_kode_pos,
+      domisili_kelurahan_desa : user.domisili_kelurahan_desa,
+      domisili_kecamatan : user.domisili_kecamatan,
+      domisili_kabupaten_kota : user.domisili_kabupaten_kota,
+      domisili_provinsi : user.domisili_provinsi,
+      domisili_rt : user.domisili_rt,
+      domisili_rw : user.domisili_rw,
     }));
 
-    return res.status(200).json(decryptedUsers);
+    return res.status(200).json({data:decryptedUsers, flag : userFlags});
   } catch (err) {
     console.error('Error fetching users:', err);
     return res.status(500).json({ message: 'Terjadi kesalahan pada server' });
