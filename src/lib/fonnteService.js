@@ -32,3 +32,10 @@ export async function sendVerifiedUsers(nomor_hp) {
     message: `Hallo dari lpm SSG (Santri Siap Guna)! , selamat anda sudah terdaftar sebagai pengguna di aplikasi SSG`,
 });
 }
+
+export async function sendPresenUsers(nomor_hp, nama_lengkap, jenis){
+  const response = await client.sendMessage({
+    target: nomor_hp, // Target phone number with country code
+    message: `Hallo dari lpm SSG (Santri Siap Guna)! , ${nama_lengkap} Hari ini sudah melakukan presensi ${jenis}`,
+});
+}

@@ -444,3 +444,16 @@ export const getUserFilesByUserId= async(userId) => {
   }
 }
 
+export const getAlluserFiles = async() => {
+  const connection = await getConnection();
+  try {
+    const [rows] = await connection.execute(
+      `SELECT user_id, file_name, file_type, google_drive_file_id
+       FROM user_files`
+    );
+    return rows;
+  } finally {
+    connection.release();
+  }
+}
+

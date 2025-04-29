@@ -4,7 +4,7 @@ import { addUserRole, createUser, getAllUsers, getUserByEmail, getUserByHp, getU
 import jwt from 'jsonwebtoken';
 import generatedToken from '../lib/token.js';
 import { decryptData, encryptData, hashPhoneNumber } from '../lib/encrypt.js';
-import {  createUserVerify, getUserVerify, statusUserVerify } from '../models/user.bio.models.js';
+import {  createUserVerify, getAlluserFiles, getUserVerify, statusUserVerify } from '../models/user.bio.models.js';
 import { sendOtpForgotPassword, sendTextMessage } from '../lib/fonnteService.js';
 import crypto from 'crypto';
 import authorizeUrl, { oauth2Client } from '../lib/gmailLogin.js';
@@ -132,6 +132,7 @@ export const getUsers = async (req, res) => {
   const users = await getAllUsers();
   // console.log("users", users)
   try {
+    const userFiles = await getAlluserFiles();
     const userFlags = await getAllUsersStatusFlag();
     const decryptedUsers = users.map(user =>({
       nama_lengkap : decryptData(JSON.parse(user.nama_lengkap)), // Simpan sebagai JSON
@@ -160,7 +161,7 @@ export const getUsers = async (req, res) => {
       domisili_rw : user.domisili_rw,
     }));
 
-    return res.status(200).json({data:decryptedUsers, flag : userFlags});
+    return res.status(200).json({data:decryptedUsers, flag : userFlags , file:userFiles});
   } catch (err) {
     console.error('Error fetching users:', err);
     return res.status(500).json({ message: 'Terjadi kesalahan pada server' });
