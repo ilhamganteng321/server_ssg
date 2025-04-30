@@ -1,5 +1,6 @@
-import Joi from "joi";
-import {
+const Joi = require('joi');
+
+const {
   createEduUsers,
   createUserHealth,
   createUserReRegistration,
@@ -11,8 +12,10 @@ import {
   updateUserHealth,
   getUserFilesByUserId,
   getUserQrcode
-} from "../models/user.bio.models.js";
-import { getUserById } from "../models/user.model.js";
+} = require('../models/user.bio.models.js');
+
+const { getUserById } = require('../models/user.model.js');
+
 
 const userEducateSchema = Joi.object({
   id: Joi.number().required(),
@@ -31,7 +34,7 @@ const healthSchema = Joi.object({
     hubungan_darurat: Joi.string().valid("Orang tua", "Saudara", "Pasangan", "Teman", "Lainnya").required()
 });
 
-export const createEducation = async (req, res) => {
+ const createEducation = async (req, res) => {
   const { id, pendidikan_terakhir, pekerjaan, organisasi, motivasi } = req.body;
 
   const { error } = userEducateSchema.validate(req.body);
@@ -62,7 +65,7 @@ export const createEducation = async (req, res) => {
   }
 };
 
-export const updateEducation = async (req, res) => {
+ const updateEducation = async (req, res) => {
   const { id, pendidikan_terakhir, pekerjaan, organisasi, motivasi } = req.body;
 
   const { error } = userEducateSchema.validate(req.body);
@@ -90,7 +93,7 @@ export const updateEducation = async (req, res) => {
   }
 };
 
-export const getEduUser = async (req, res) => {
+ const getEduUser = async (req, res) => {
   try {
     const { id } = req.query; // atau req.params.id jika dari URL
 
@@ -107,7 +110,7 @@ export const getEduUser = async (req, res) => {
 };
 
 
-export const createHealthRecord = async (req, res) => {
+ const createHealthRecord = async (req, res) => {
     const { error } = healthSchema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
@@ -126,7 +129,7 @@ export const createHealthRecord = async (req, res) => {
     }
 };
 
-export const updateHealthRecord = async (req, res) => {
+ const updateHealthRecord = async (req, res) => {
     const { error } = healthSchema.validate(req.body);
     if (error) return res.status(400).json({ error: error.details[0].message });
 
@@ -145,7 +148,7 @@ export const updateHealthRecord = async (req, res) => {
     }
 };
 
-export const getHealthUser = async (req, res) => {
+ const getHealthUser = async (req, res) => {
   try {
     const { user_id } = req.query;
 
@@ -165,7 +168,7 @@ export const getHealthUser = async (req, res) => {
 };
 
 
-export const reRegistrationUser = async (req, res) => {
+ const reRegistrationUser = async (req, res) => {
   try {
     const { user_id } = req.query;
     const user = await getUserById(user_id);
@@ -191,7 +194,7 @@ export const reRegistrationUser = async (req, res) => {
   }
 }
 
-export const getUserReRegistration = async (req, res) => {
+ const getUserReRegistration = async (req, res) => {
   try {
     const { user_id } = req.query;
 
@@ -214,7 +217,7 @@ export const getUserReRegistration = async (req, res) => {
   }
 }
 
-export const getUserFiles = async (req, res) =>{
+ const getUserFiles = async (req, res) =>{
   const { userId } = req.query;
   try {
     const files = await getUserFilesByUserId(userId);
@@ -230,7 +233,7 @@ export const getUserFiles = async (req, res) =>{
   }
 }
 
-export const getUserQrcodes = async (req, res) => {
+ const getUserQrcodes = async (req, res) => {
   try {
     const { user_id } = req.query;
     const user = await getUserById(user_id);
@@ -247,3 +250,16 @@ export const getUserQrcodes = async (req, res) => {
     
   }
 }
+
+module.exports = {
+  createEducation,
+  updateEducation,
+  getEduUser,
+  createHealthRecord,
+  updateHealthRecord,
+  getHealthUser,
+  reRegistrationUser,
+  getUserReRegistration,
+  getUserFiles,
+  getUserQrcodes
+};

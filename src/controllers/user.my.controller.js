@@ -1,6 +1,6 @@
-import DailyIbadahModel from '../models/user.my.models.js'
+const DailyIbadahModel = require('../models/user.my.models.js');
 
-export const inputMyUsers = async (req, res) =>{
+ const inputMyUsers = async (req, res) =>{
         const data = req.body;      
         try {
           const existing = await DailyIbadahModel.findByUserAndDate(data.user_id, data.date);
@@ -25,7 +25,7 @@ export const inputMyUsers = async (req, res) =>{
         }
 }
 
-export const getIbadahByDate = async(req, res) =>{
+ const getIbadahByDate = async(req, res) =>{
         const {user_id} = req.query;
         const { date } = req.body;      
         try {
@@ -49,7 +49,7 @@ export const getIbadahByDate = async(req, res) =>{
         }
 };
 
-export const getIbadahByMonth = async (req, res) => {
+ const getIbadahByMonth = async (req, res) => {
     const { user_id } = req.query;
     const { month, year } = req.body;
 
@@ -72,4 +72,10 @@ export const getIbadahByMonth = async (req, res) => {
         console.error('Error in getIbadahByDate:', error);
         res.status(500).json({ status: 'error', message: 'Terjadi kesalahan server' });
       }
+}
+
+module.exports = {
+    inputMyUsers,
+    getIbadahByDate,
+    getIbadahByMonth
 }

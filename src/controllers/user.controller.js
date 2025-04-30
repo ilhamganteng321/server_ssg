@@ -1,16 +1,47 @@
-import bcrypt from 'bcryptjs';
-import Joi from 'joi';
-import { addUserRole, createUser, getAllUsers, getUserByEmail, getUserByHp, getUserById, getUserByNik, getUserRole, kodeposku } from '../models/user.model.js';
-import jwt from 'jsonwebtoken';
-import generatedToken from '../lib/token.js';
-import { decryptData, encryptData, hashPhoneNumber } from '../lib/encrypt.js';
-import {  createUserVerify, getAlluserFiles, getUserVerify, statusUserVerify } from '../models/user.bio.models.js';
-import { sendOtpForgotPassword, sendTextMessage } from '../lib/fonnteService.js';
-import crypto from 'crypto';
-import authorizeUrl, { oauth2Client } from '../lib/gmailLogin.js';
-import { google } from 'googleapis';
-import { getConnection } from '../config/db.js';
-import { getAllUsersStatusFlag } from '../models/admin.models.js';
+const bcrypt = require('bcryptjs');
+const Joi = require('joi');
+const {
+  addUserRole,
+  createUser,
+  getAllUsers,
+  getUserByEmail,
+  getUserByHp,
+  getUserById,
+  getUserByNik,
+  getUserRole,
+  kodeposku
+} = require('../models/user.model.js');
+
+const authorizeUrl = require('../lib/gmailLogin.js');
+const { oauth2Client } = require('../lib/gmailLogin.js');
+
+const jwt = require('jsonwebtoken');
+const generatedToken = require('../lib/token.js');
+
+const {
+  decryptData,
+  encryptData,
+  hashPhoneNumber
+} = require('../lib/encrypt.js');
+
+const {
+  createUserVerify,
+  getAlluserFiles,
+  getUserVerify,
+  statusUserVerify
+} = require('../models/user.bio.models.js');
+
+const {
+  sendOtpForgotPassword,
+  sendTextMessage
+} = require('../lib/fonnteService.js');
+
+const crypto = require('crypto');
+
+const { google } = require('googleapis');
+const { getConnection } = require('../config/db.js');
+const { getAllUsersStatusFlag } = require('../models/admin.models.js');
+
 
 // Validasi Input Pengguna (Disesuaikan dengan Tabel Users)
 const userSchema = Joi.object({
@@ -42,8 +73,7 @@ const userSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 // Menambahkan Pengguna Baru (Registrasi)
-
-export const registerUser = async (req, res) => {
+ const registerUser = async (req, res) => {
   try {
     // Validasi Data
     const { error } = userSchema.validate(req.body);
@@ -128,7 +158,7 @@ export const registerUser = async (req, res) => {
 };
 
 
-export const getUsers = async (req, res) => {
+ const getUsers = async (req, res) => {
   const users = await getAllUsers();
   // console.log("users", users)
   try {
@@ -169,7 +199,7 @@ export const getUsers = async (req, res) => {
 };
 
 
-export const loginUser = async (req, res) => {
+ const loginUser = async (req, res) => {
   let connection;
   try {
     connection = await getConnection();
@@ -254,7 +284,7 @@ export const loginUser = async (req, res) => {
 
 
 // Logout Pengguna
-export const logoutUser = async (req, res) => {
+ const logoutUser = async (req, res) => {
   try {
     res.clearCookie('token', {
       httpOnly: true,
@@ -269,7 +299,7 @@ export const logoutUser = async (req, res) => {
 };
 
 
-export const verifyOTP = async (req, res) => {
+ const verifyOTP = async (req, res) => {
   const db = await getConnection();
   
   try {
@@ -331,7 +361,7 @@ export const verifyOTP = async (req, res) => {
 };
 
 
-export const coba = async (req, res) => {
+ const coba = async (req, res) => {
   try {
     const{nomor_hp , password} = req.body;
     const otp = '123456'
@@ -342,11 +372,11 @@ export const coba = async (req, res) => {
   }
 } 
 
-export const googleLogin = (req, res) => {
+ const googleLogin = (req, res) => {
   res.redirect(authorizeUrl); 
 }
 
-export const googleLoginCb = async (req, res) => {
+ const googleLoginCb = async (req, res) => {
   try {
     const { code } = req.query;
     console.log("Received Code:", code);
@@ -400,7 +430,7 @@ return res.redirect(`/register-stepper.html?email=${encodeURIComponent(data.emai
   }
 }
 
-export const getKodePos = async (req, res) =>{
+ const getKodePos = async (req, res) =>{
   try {
     const { kode_pos } = req.query;
 
@@ -418,7 +448,7 @@ export const getKodePos = async (req, res) =>{
   }
 }
 
-export const forgotPasswordUser = async (req, res) => {
+ const forgotPasswordUser = async (req, res) => {
   try {
     const { nomor_hp } = req.query;
 
@@ -443,8 +473,20 @@ export const forgotPasswordUser = async (req, res) => {
   }
 }
 
+module.exports = {
+  registerUser,
+  getUsers,
+  loginUser,
+  logoutUser,
+  verifyOTP,
+  coba,
+  googleLogin,
+  googleLoginCb,
+  getKodePos,
+  forgotPasswordUser
+};
 
-// export const verifyOtpForgotPassword = async (req, res) => {
+//  const verifyOtpForgotPassword = async (req, res) => {
 //   try {
 //     const { otp } =  
 //   } catch (error) {

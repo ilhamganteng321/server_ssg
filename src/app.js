@@ -1,10 +1,10 @@
 // src/app.js
-import express from 'express';
-import userRoutes from './routes/user.route.js';
-import adminRoutes from './routes/admin.route.js';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import quranRoutes from './routes/quran.route.js';
+const express = require('express');
+const userRoutes = require('./routes/user.route.js');
+const adminRoutes = require('./routes/admin.route.js');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const quranRoutes = require('./routes/quran.route.js');
 
 // import upload from '../dummy.js';
 
@@ -25,4 +25,4 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/quran', quranRoutes);
 // app.use('/api/user', upload);
 
-export default app;
+module.exports = app;

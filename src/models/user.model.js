@@ -1,9 +1,9 @@
-import crypto from 'crypto';
-import { decryptData, encryptData, hashPhoneNumber } from '../lib/encrypt.js';
-import { dbPromise, getConnection } from '../config/db.js';
+const crypto = require('crypto');
+const { decryptData} = require('../lib/encrypt.js');
+const { dbPromise, getConnection } = require('../config/db.js');
 
 // Mendapatkan semua pengguna
-export const getAllUsers = async () => {
+ const getAllUsers = async () => {
   const db = await getConnection();
   try {
     const [rows] = await db.query('SELECT * FROM users');
@@ -16,7 +16,7 @@ export const getAllUsers = async () => {
   }
 };
 
-export const kodeposku = async (kodepos) => {
+ const kodeposku = async (kodepos) => {
   const db = await dbPromise();
   try {
     const rows = await db.get('select * from kodeposku where kode_pos = ?',[kodepos])
@@ -27,7 +27,7 @@ export const kodeposku = async (kodepos) => {
 }
 
 // Membuat pengguna baru (registrasi lokal)
-export const createUser = async (userData) => {
+ const createUser = async (userData) => {
   const db = await getConnection();
   try {
     const {
@@ -111,7 +111,7 @@ export const createUser = async (userData) => {
 
 // Mendapatkan user berdasarkan email
 // Ambil user berdasarkan email
-export const getUserByEmail = async (email) => {
+ const getUserByEmail = async (email) => {
   const db = await getConnection();
   try {
     const [rows] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
@@ -135,7 +135,7 @@ export const getUserByEmail = async (email) => {
 // Mendapatkan user berdasarkan NIK
 
 // Ambil user berdasarkan NIK (dengan enkripsi)
-export const getUserByNik = async (nik) => {
+ const getUserByNik = async (nik) => {
   let connection;
   try {
     connection = await getConnection();
@@ -179,7 +179,7 @@ export const getUserByNik = async (nik) => {
   }
 };
 // Ambil user berdasarkan nomor HP
-export const getUserByHp = async (nomor_hp) => {
+ const getUserByHp = async (nomor_hp) => {
   let connection;
   try {
     connection = await getConnection();
@@ -223,7 +223,7 @@ export const getUserByHp = async (nomor_hp) => {
   }
 };
 
-export const addUserRole = async (id) => {
+ const addUserRole = async (id) => {
   const conn = await getConnection();
   try{
     const query = `INSERT INTO m_user_t (user_id, role) VALUES (?, '0a')`;
@@ -243,7 +243,7 @@ export const addUserRole = async (id) => {
   }
 }
 
-export const updateUserRole = async (userId, role) => {
+ const updateUserRole = async (userId, role) => {
   const db = await getConnection();
   try {
     const query = 'UPDATE m_user_t SET role = ? WHERE user_id = ?';
@@ -262,7 +262,7 @@ export const updateUserRole = async (userId, role) => {
   }
 }
 
-export const getUserRole = async (userId) => {
+ const getUserRole = async (userId) => {
   const db = await getConnection();
   try {
     const [rows] = await db.execute('SELECT * FROM m_user_t WHERE user_id = ?', [userId]);
@@ -279,7 +279,7 @@ export const getUserRole = async (userId) => {
 
 // Mendapatkan user berdasarkan ID
 // Ambil user berdasarkan ID
-export const getUserById = async (id) => {
+ const getUserById = async (id) => {
   const db = await getConnection();
   try {
     const [rows] = await db.execute('SELECT * FROM users WHERE id = ?', [id]);
@@ -304,7 +304,7 @@ export const getUserById = async (id) => {
 };
 
 // Menghasilkan dan menyimpan OTP
-export const generateOTP = async (userId) => {
+ const generateOTP = async (userId) => {
   const db = await getConnection();
   try {
     const otpCode = crypto.randomInt(100000, 999999).toString();
@@ -320,7 +320,7 @@ export const generateOTP = async (userId) => {
 };
 
 // Verifikasi OTP
-export const verifyOTP = async (userId, otpCode) => {
+ const verifyOTP = async (userId, otpCode) => {
   const db = await getConnection();
   try {
     const row = await db.get(
@@ -341,7 +341,7 @@ export const verifyOTP = async (userId, otpCode) => {
 };
 
 // Bersihkan OTP yang kedaluwarsa
-export const cleanExpiredOTPs = async () => {
+ const cleanExpiredOTPs = async () => {
   const db = await getConnection();
   try {
     await db.run('DELETE FROM user_otps WHERE expires_at <= datetime("now")');
@@ -350,3 +350,19 @@ export const cleanExpiredOTPs = async () => {
     throw error;
   }
 };
+
+module.exports = {
+  getAllUsers,
+  getUserByEmail,
+  getUserByNik,
+  getUserByHp,
+  getUserById,
+  createUser,
+  generateOTP,
+  verifyOTP,
+  cleanExpiredOTPs,
+  addUserRole,
+  updateUserRole,
+  getUserRole,
+  kodeposku,
+}

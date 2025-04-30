@@ -1,9 +1,14 @@
-import { sendPresenUsers } from "../lib/fonnteService.js";
-import { getUserHealthById } from "../models/user.bio.models.js";
-import { getUserById } from "../models/user.model.js";
-import { getUserIdByQRCode, getUserPresensi, insertPresensiKeluar, insertPresensiMasuk } from "../models/user.presensi.models.js";
+const { sendPresenUsers } = require('../lib/fonnteService.js');
+const { getUserHealthById } = require('../models/user.bio.models.js');
+const { getUserById } = require('../models/user.model.js');
+const {
+  getUserIdByQRCode,
+  getUserPresensi,
+  insertPresensiKeluar,
+  insertPresensiMasuk
+} = require('../models/user.presensi.models.js');
 
-export const handlePresensi = async (req, res) => {
+ const handlePresensi = async (req, res) => {
   try {
     const { qrcode_text, jenis } = req.body;
     console.log('Presensi Request:', req.body);
@@ -66,4 +71,8 @@ export const handlePresensi = async (req, res) => {
     console.error('Presensi Error:', error);
     res.status(500).json({ message: 'Terjadi kesalahan' });
   }
+};
+
+module.exports = {
+  handlePresensi
 };

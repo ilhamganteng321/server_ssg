@@ -1,6 +1,6 @@
 // src/routes/quran.route.js
-import express from 'express';
-import createDbConnection from '../utils/db.js';
+const  express = require('express');
+const createDbConnection = require ('../utils/db.js');
 
 const router = express.Router();
 
@@ -301,4 +301,4 @@ router.get('/surahs', async (req, res) => {
     }
   });
   
-  export default router;
+  module.exports =  router;

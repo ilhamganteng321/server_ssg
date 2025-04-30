@@ -1,9 +1,19 @@
-import { sendVerifiedUsers } from "../lib/fonnteService.js";
-import { getAllUsersStatusFlag } from "../models/admin.models.js";
-import { createUserQrcode, getUserQrcode, getUserStatusFlag, updateUserStatusFlag } from "../models/user.bio.models.js";
-import { getUserById, getUserRole, updateUserRole } from "../models/user.model.js";
+const { sendVerifiedUsers } = require('../lib/fonnteService.js');
+const { getAllUsersStatusFlag } = require('../models/admin.models.js');
+const {
+  createUserQrcode,
+  getUserQrcode,
+  getUserStatusFlag,
+  updateUserStatusFlag
+} = require('../models/user.bio.models.js');
+const {
+  getUserById,
+  getUserRole,
+  updateUserRole
+} = require('../models/user.model.js');
 
-export const activateUser = async (req, res) => {
+
+ const activateUser = async (req, res) => {
     try {
         const { user_id } = req.query;
         const user = await getUserById(user_id);
@@ -49,7 +59,7 @@ export const activateUser = async (req, res) => {
     }
 }
 
-export const getUserStatusFlagUsers = async (req, res) => {
+ const getUserStatusFlagUsers = async (req, res) => {
     try {
         const userFlag = await getAllUsersStatusFlag();
         
@@ -63,7 +73,7 @@ export const getUserStatusFlagUsers = async (req, res) => {
     }
 }
 
-export const getUserStatusFlagOne = async (req, res) => {
+ const getUserStatusFlagOne = async (req, res) => {
     try {
         const { user_id } = req.query;
         const userStatusRegistration = await getUserStatusFlag(user_id);
@@ -78,4 +88,10 @@ export const getUserStatusFlagOne = async (req, res) => {
             return res.status(500).json({ message: "internal server error" });
         }
     }
+}
+
+module.exports = {
+    activateUser,
+    getUserStatusFlagUsers,
+    getUserStatusFlagOne
 }

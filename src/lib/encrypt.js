@@ -1,16 +1,16 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 dotenv.config();
-import crypto from 'crypto';
+const crypto = require('crypto');
 
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
 if (!ENCRYPTION_KEY) throw new Error("ENCRYPTION_KEY is not set!");
 const IV_LENGTH = 12;
 
-export const hashPhoneNumber = (phone) => {
+ const hashPhoneNumber = (phone) => {
   return crypto.createHash('sha256').update(phone).digest('hex');
 };
 
-export const encryptData = (data) => {
+ const encryptData = (data) => {
     const iv = crypto.randomBytes(12); // Nonce (IV) untuk ChaCha20
     const cipher = crypto.createCipheriv('chacha20-poly1305', Buffer.from(ENCRYPTION_KEY, 'hex'), iv);
   
@@ -22,7 +22,7 @@ export const encryptData = (data) => {
   };
   
   // Fungsi Dekripsi menggunakan ChaCha20-Poly1305
-  export const decryptData = (encryptedData) => {
+   const decryptData = (encryptedData) => {
     try {
       const { encrypted, iv, authTag } = encryptedData;
   
@@ -45,3 +45,8 @@ export const encryptData = (data) => {
     }
   };
   
+  module.exports = {
+    encryptData,
+    decryptData,
+    hashPhoneNumber
+  };

@@ -1,7 +1,7 @@
-import QRCode from 'qrcode';
-import { getConnection } from "../config/db.js";
+const QRCode = require('qrcode');
+const { getConnection } = require("../config/db.js");
 
-export const getUserByEducate = async (id) => {
+ const getUserByEducate = async (id) => {
   const db = await getConnection();
   try {
     const [rows] = await db.execute('SELECT * FROM user_education WHERE user_id = ?', [id]);
@@ -18,7 +18,7 @@ export const getUserByEducate = async (id) => {
   }
 };
 
-  export const getUserVerify = async (userId) => {
+   const getUserVerify = async (userId) => {
     let connection;
     try {
       connection = await getConnection();
@@ -41,7 +41,7 @@ export const getUserByEducate = async (id) => {
     }
   };
 
-  export const createUserVerify = async (userId) => {
+   const createUserVerify = async (userId) => {
     const connection = await getConnection();
     try {
       const query = `INSERT INTO user_verify (user_id, isverified) VALUES (?, 0)`;
@@ -60,7 +60,7 @@ export const getUserByEducate = async (id) => {
     }
   };
 
-  export const statusUserVerify = async (userId) => {
+   const statusUserVerify = async (userId) => {
     let connection;
     try {
       connection = await getConnection();
@@ -85,7 +85,7 @@ export const getUserByEducate = async (id) => {
     }
   };
 
-  export const createEduUsers = async (userData) => {
+   const createEduUsers = async (userData) => {
     const db = await getConnection();
     try {
       const {
@@ -125,7 +125,7 @@ export const getUserByEducate = async (id) => {
     }
   };
   
-  export const updateEduUsers = async (userData) => {
+   const updateEduUsers = async (userData) => {
     const db = await getConnection();
     try {
       const { id, pendidikan_terakhir, pekerjaan, organisasi, motivasi } = userData;
@@ -157,7 +157,7 @@ export const getUserByEducate = async (id) => {
     }
   };
 
-  export const getEduUsers = async (id) => {
+   const getEduUsers = async (id) => {
     const db = await getConnection();
     try {
       const [rows] = await db.execute('SELECT * FROM user_education WHERE user_id = ?', [id]);
@@ -175,7 +175,7 @@ export const getUserByEducate = async (id) => {
     }
   };
 
-  export const getUserHealthById = async (user_id) => {
+   const getUserHealthById = async (user_id) => {
     const db = await getConnection();
     try {
       const [rows] = await db.execute('SELECT * FROM user_health WHERE user_id = ?', [user_id]);
@@ -192,7 +192,7 @@ export const getUserByEducate = async (id) => {
 };
 
 // **CREATE: Tambah Data Kesehatan**
-export const createUserHealth = async (userData) => {
+ const createUserHealth = async (userData) => {
   let connection;
   try {
       connection = await getConnection(); // Get MariaDB connection
@@ -241,7 +241,7 @@ export const createUserHealth = async (userData) => {
   }
 };
 // **UPDATE: Perbarui Data Kesehatan**
-export const updateUserHealth = async (userData) => {
+ const updateUserHealth = async (userData) => {
   let connection;
   try {
       connection = await getConnection(); // Get MariaDB connection
@@ -298,7 +298,7 @@ export const updateUserHealth = async (userData) => {
   }
 };
 
-export const createUserReRegistration = async (user_id) => {
+ const createUserReRegistration = async (user_id) => {
     let connection;
     try{
         connection = await getConnection();
@@ -316,7 +316,7 @@ export const createUserReRegistration = async (user_id) => {
     }
 }
 
-export const getUserStatusFlag = async (user_id) => {
+ const getUserStatusFlag = async (user_id) => {
   const db = await getConnection();
 try {
   const [rows] = await db.execute(
@@ -338,7 +338,7 @@ try {
 }
 };
 
-export const updateUserStatusFlag = async (user_id) => {
+ const updateUserStatusFlag = async (user_id) => {
   const db = await getConnection();
   try {
     // Update flag
@@ -370,7 +370,7 @@ export const updateUserStatusFlag = async (user_id) => {
   }
 };
 
-export const createUserQrcode = async (user_id) => {
+ const createUserQrcode = async (user_id) => {
   const db = await getConnection();
   try {
     const [rows] = await db.execute('SELECT * FROM users WHERE id = ?', [user_id]);
@@ -414,7 +414,7 @@ export const createUserQrcode = async (user_id) => {
   }
 };
 
-export const getUserQrcode = async (user_id) => {
+ const getUserQrcode = async (user_id) => {
   const db = await getConnection();
   try {
     const [rows] = await db.execute('SELECT * FROM user_qrcodes WHERE user_id = ?', [user_id]);
@@ -429,7 +429,7 @@ export const getUserQrcode = async (user_id) => {
   }
 }
 
-export const getUserFilesByUserId= async(userId) => {
+ const getUserFilesByUserId= async(userId) => {
   const connection = await getConnection();
   try {
     const [rows] = await connection.execute(
@@ -444,7 +444,7 @@ export const getUserFilesByUserId= async(userId) => {
   }
 }
 
-export const getAlluserFiles = async() => {
+ const getAlluserFiles = async() => {
   const connection = await getConnection();
   try {
     const [rows] = await connection.execute(
@@ -457,3 +457,23 @@ export const getAlluserFiles = async() => {
   }
 }
 
+
+module.exports = {
+  getUserByEducate,
+  getUserVerify,
+  createUserVerify,
+  statusUserVerify,
+  createEduUsers,
+  updateEduUsers,
+  getEduUsers,
+  getUserHealthById,
+  createUserHealth,
+  updateUserHealth,
+  createUserReRegistration,
+  getUserStatusFlag,
+  updateUserStatusFlag,
+  createUserQrcode,
+  getUserQrcode,
+  getAlluserFiles,
+  getUserFilesByUserId
+};

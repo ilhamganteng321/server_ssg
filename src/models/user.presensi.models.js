@@ -1,6 +1,6 @@
-import { getConnection } from "../config/db.js";
+const { getConnection } = require ("../config/db.js");
 
-export const getUserIdByQRCode = async (qrcode_text) => {
+ const getUserIdByQRCode = async (qrcode_text) => {
   const db = await getConnection();
   const [rows] = await db.execute(
     'SELECT user_id FROM user_qrcodes WHERE qrcode_text = ?',
@@ -10,7 +10,7 @@ export const getUserIdByQRCode = async (qrcode_text) => {
   return rows.length ? rows[0].user_id : null;
 };
 
-export const insertPresensiMasuk = async (user_id, qrcode_text) => {
+ const insertPresensiMasuk = async (user_id, qrcode_text) => {
   const db = await getConnection();
   const [result] = await db.execute(
     'INSERT INTO presensi (user_id, qrcode_text, jenis) VALUES (?, ? , "masuk")',
@@ -20,7 +20,7 @@ export const insertPresensiMasuk = async (user_id, qrcode_text) => {
   return result;
 };
 
-export const insertPresensiKeluar = async (user_id, qrcode_text) => {
+ const insertPresensiKeluar = async (user_id, qrcode_text) => {
   const db = await getConnection();
   const [result] = await db.execute(
     'INSERT INTO presensi (user_id, qrcode_text, jenis) VALUES (?, ?, "keluar")',
@@ -30,7 +30,7 @@ export const insertPresensiKeluar = async (user_id, qrcode_text) => {
   return result;
 };
 
-export const getUserPresensi = async(user_id) =>{
+ const getUserPresensi = async(user_id) =>{
 
     let connection;
     try {
@@ -49,3 +49,10 @@ export const getUserPresensi = async(user_id) =>{
         }
     }
 }
+
+module.exports = {
+  getUserIdByQRCode,
+  insertPresensiMasuk,
+  insertPresensiKeluar,
+  getUserPresensi
+};

@@ -1,9 +1,7 @@
-import mysql from 'mysql2/promise';
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
-import dotenv from 'dotenv';
-
-import fs from 'fs';
+const mysql = require('mysql2/promise');
+const sqlite3 = require('sqlite3');
+const { open } = require('sqlite');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
@@ -24,7 +22,7 @@ const mariaDbConfig = {
 const pool = mysql.createPool(mariaDbConfig);
 
 // Membuka koneksi ke database MariaDB
-export const getConnection = async () => {
+ const getConnection = async () => {
   try {
     const connection = await pool.getConnection();
     // console.log('Database connected');
@@ -39,7 +37,7 @@ export const getConnection = async () => {
 };
 
 // getConnection();
-export const dbPromise = async () =>{
+ const dbPromise = async () =>{
   try {
     const db = await open({
       filename: './src/database/kodepos.db',
@@ -53,4 +51,7 @@ export const dbPromise = async () =>{
   }
 }
 
-export default dbPromise;
+ module.exports = {
+  getConnection,
+  dbPromise
+ };

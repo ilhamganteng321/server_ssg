@@ -1,6 +1,6 @@
 // src/server.js
-import dotenv from 'dotenv';
-import app from './app.js';
+const dotenv = require('dotenv');
+const app = require('./app.js');
 
 dotenv.config();
 

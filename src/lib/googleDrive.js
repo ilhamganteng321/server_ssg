@@ -1,10 +1,10 @@
-import { google } from "googleapis";
-import fs from 'fs';
+const { google } = require("googleapis");
+const fs = require('fs');
 
 const apikeys = JSON.parse(fs.readFileSync('./api-key.json', 'utf8'));
 const SCOPE = ['https://www.googleapis.com/auth/drive'];
 
-export async function createFolder(authClient, folderName, parentFolderId = null) {
+ async function createFolder(authClient, folderName, parentFolderId = null) {
   const drive = google.drive({ version: "v3", auth: authClient });
 
   const fileMetadata = {
@@ -21,7 +21,7 @@ export async function createFolder(authClient, folderName, parentFolderId = null
   return response.data.id; // Mengembalikan ID folder yang baru dibuat
 }
 
-export async function authorize() {
+ async function authorize() {
   const jwtClient = new google.auth.JWT(
     apikeys.client_email,
     null,
@@ -33,7 +33,7 @@ export async function authorize() {
   return jwtClient;
 }
 
-export async function uploadFile(authClient, filePath, fileName, mimeType, folderId) {
+ async function uploadFile(authClient, filePath, fileName, mimeType, folderId) {
   const drive = google.drive({ version: "v3", auth: authClient });
 
   const fileMetadata = {
@@ -54,3 +54,9 @@ export async function uploadFile(authClient, filePath, fileName, mimeType, folde
 
   return response.data.id; // Mengembalikan ID file yang diupload
 }
+
+module.exports = {
+  createFolder,
+  authorize,
+  uploadFile
+};

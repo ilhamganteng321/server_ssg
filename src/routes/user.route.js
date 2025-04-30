@@ -1,17 +1,53 @@
 // src/routes/user.route.js
-import express from 'express';
-import multer from 'multer';
-import { forgotPasswordUser, getKodePos, getUsers, googleLogin, googleLoginCb, loginUser, logoutUser, registerUser, verifyOTP } from '../controllers/user.controller.js';
-import { createEducation, createHealthRecord, getEduUser, getHealthUser, getUserFiles, getUserQrcodes, getUserReRegistration, reRegistrationUser, updateEducation, updateHealthRecord } from '../controllers/user.bio.controller.js';
-import { authorize, createFolder, uploadFile } from '../lib/googleDrive.js';
-import { getUserById } from '../models/user.model.js';
-import {getConnection} from '../config/db.js';
-import { handlePresensi } from '../controllers/presensi.controller.js';
-import { getIbadahByDate, getIbadahByMonth, inputMyUsers } from '../controllers/user.my.controller.js';
-import { getUserFilesByUserId } from '../models/user.bio.models.js';
+const express = require('express');
+const multer = require('multer');
+
+const {
+  forgotPasswordUser,
+  getKodePos,
+  getUsers,
+  googleLogin,
+  googleLoginCb,
+  loginUser,
+  logoutUser,
+  registerUser,
+  verifyOTP
+} = require('../controllers/user.controller.js');
+
+const {
+  createEducation,
+  createHealthRecord,
+  getEduUser,
+  getHealthUser,
+  getUserFiles,
+  getUserQrcodes,
+  getUserReRegistration,
+  reRegistrationUser,
+  updateEducation,
+  updateHealthRecord
+} = require('../controllers/user.bio.controller.js');
+
+const {
+  authorize,
+  createFolder,
+  uploadFile
+} = require('../lib/googleDrive.js');
+
+const { getUserById } = require('../models/user.model.js');
+const { getConnection } = require('../config/db.js');
+const { handlePresensi } = require('../controllers/presensi.controller.js');
+const {
+  getIbadahByDate,
+  getIbadahByMonth,
+  inputMyUsers
+} = require('../controllers/user.my.controller.js');
+
+const { getUserFilesByUserId } = require('../models/user.bio.models.js');
+
 const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
+
 
 router.get('/', getUsers);
 router.get('/kodepos', getKodePos);
@@ -103,4 +139,4 @@ router.post('/upload-files', upload.array('files'), async (req, res) => {
 });
 
 
-export default router;
+module.exports = router;

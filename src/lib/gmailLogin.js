@@ -1,6 +1,6 @@
-import { google } from "googleapis";
+const { google } = require("googleapis");
 
-export const oauth2Client = new google.auth.OAuth2(
+ const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
     "http://localhost:3333/api/users/google/callback"
@@ -19,4 +19,4 @@ const authorizeUrl = oauth2Client.generateAuthUrl({
     include_granted_scopes: true,
 });
 
-export default authorizeUrl;
+ module.exports =  authorizeUrl;

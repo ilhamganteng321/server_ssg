@@ -1,6 +1,7 @@
 // src/utils/db.js
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
+const sqlite3 = require('sqlite3').verbose();
+const { open } = require('sqlite');
+
 
 // Create a database connection
 const createDbConnection = async () => {
@@ -9,7 +10,7 @@ const createDbConnection = async () => {
           filename: './src/database/quran.db',
           driver:sqlite3.Database
         })
-        console.log('Database quran connected');
+        // console.log('Database quran connected');
         return db;
    } catch (error) {
     console.error('Database connection error:', err);
@@ -19,4 +20,4 @@ const createDbConnection = async () => {
 
 createDbConnection();
 
-export default createDbConnection;
+module.exports = createDbConnection;

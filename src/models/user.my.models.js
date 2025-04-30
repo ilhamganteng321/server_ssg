@@ -1,4 +1,4 @@
-import { getConnection } from '../config/db.js';
+const { getConnection } = require('../config/db.js');
 
 const DailyIbadahModel = {
   findMyByMonth: async (user_id, month,year) => {
@@ -78,4 +78,4 @@ const DailyIbadahModel = {
   }
 };
 
-export default DailyIbadahModel;
+module.exports = DailyIbadahModel;

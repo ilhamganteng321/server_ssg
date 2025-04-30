@@ -1,6 +1,6 @@
-import { getConnection } from "../config/db.js";
+const { getConnection } = require ("../config/db.js");
 
-export const getAllUsersStatusFlag = async (req, res) => {
+ const getAllUsersStatusFlag = async (req, res) => {
     let connection;
     try {
         connection = await getConnection();
@@ -14,7 +14,7 @@ export const getAllUsersStatusFlag = async (req, res) => {
     }
 }
 
-export const getOneUserStatusFlag = async (user_id) => {
+ const getOneUserStatusFlag = async (user_id) => {
     let connection;
     try {
         connection = await getConnection();
@@ -26,4 +26,9 @@ export const getOneUserStatusFlag = async (user_id) => {
     } catch (error) {
         console.log(error);
     }
+}
+
+module.exports = {
+    getAllUsersStatusFlag,
+    getOneUserStatusFlag
 }
